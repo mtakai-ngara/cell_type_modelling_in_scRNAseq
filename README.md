@@ -10,7 +10,11 @@ Here, we used a simulation strategy to define the extent of biological differenc
 Repository contents
 ----
 src : All source code
+
 doc : All documentations
+
 lib : All dependencies and libraries
+
 tools : Common utility codes
+
 build : Different releases and test versions
