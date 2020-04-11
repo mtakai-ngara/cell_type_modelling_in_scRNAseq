@@ -1,4 +1,4 @@
-Simulating different parameters in for cell type discovery in scRNAseq
+Simulating different parameters for cell type discovery in scRNAseq
 ===================
 
 Project overview 
