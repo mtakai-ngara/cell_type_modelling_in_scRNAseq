@@ -1,4 +1,4 @@
-cell_type_modelling
+Simulating different parameters in for cell type discovery in scRNAseq
 ===================
 
 Project overview 
