@@ -18,3 +18,5 @@ lib : All dependencies and libraries
 tools : Common utility codes
 
 build : Different releases and test versions
+
+notebook : Notebook demos for various analysis
