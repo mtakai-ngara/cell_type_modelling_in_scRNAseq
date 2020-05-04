@@ -716,7 +716,7 @@ def plot_mean_cluster_score_heatmap(homo_scores_infile,score='hs', output_dir=No
                                                                            'modification_method','clustering_method', 
                                                                            'randomize_cells_labels'],
                                     xlabs_ratotation=70, ylabs_ratotation=0,col_subset=None,in_cmap='seismic',
-                                    add_column_dict=None,show_reps_counts=None,limit=None):
+                                    add_column_dict=None,show_reps_counts=None,limit=None,fig_title=None):
     
     '''Plots the score distributions generated from the run_modification_methods_and_score_in_parallel'''
     homo_scores_df=None
@@ -735,8 +735,6 @@ def plot_mean_cluster_score_heatmap(homo_scores_infile,score='hs', output_dir=No
     homo_scores_df =filt_homogeneity_score_df(homo_score_df=homo_scores_df,
                                               replicates_cut_off=replicates_per_grp,
                                               grps=replicates_grps)
-    if output_dir:
-        output_dir=output_dir+'/'+score
     if add_column_dict:
         for k,v in add_column_dict.items():
             homo_scores_df[k]=v            
@@ -783,10 +781,18 @@ def plot_mean_cluster_score_heatmap(homo_scores_infile,score='hs', output_dir=No
                              ylab=y_axis_lab,labs_font_size=10,xlabs_ratotation=xlabs_ratotation,
                              ylabs_ratotation=ylabs_ratotation,cmap=in_cmap)
                 #group=group+'_'+in_cmap
-                plt.title(group)                
+                if fig_title is None:
+                    plt.title(group) 
+                else:
+                    plt.title(fig_title) 
+                    
                 if output_dir:
+                    output_dir=output_dir+'/'+score
                     safe_mkdir(output_dir)
-                    fig_fname=os.path.join(output_dir,group+'_mean_'+score+'_score.pdf')
+                    if fig_title is None:
+                        fig_fname=os.path.join(output_dir,group+'_mean_'+score+'_score.pdf')  
+                    else:
+                        fig_fname=os.path.join(output_dir,re.sub(pattern='[\s\t]+',repl='_',string=fig_title)+'.pdf')    
                     mean_hs_fig.savefig(fig_fname)
                     last_fig_fname=fig_fname
         else:
@@ -1452,7 +1458,7 @@ def plot_classification_scores_between_experiments(expriment_path,out_dir=None,x
                                                    facet_size=4,add_swarm=False,swarm_points_size=4,x_axis_rotation=0,
                                                    subplot_adjust=.95,subplot_title_size=14,no_boots=1000,
                                                    sharex=True,sharey=True,boxplot_mean=True,boxplot_outliers=True,
-                                                   boxprops=None, limit=None,errwidth=None,capsize=None):
+                                                   boxprops=None, limit=None,errwidth=None,capsize=None, fig_title=None):
     '''Plots the classification scores between experiments'''
     homo_scores_df=None
     try:
@@ -1484,8 +1490,11 @@ def plot_classification_scores_between_experiments(expriment_path,out_dir=None,x
         grps_dict = grouped_df.groups
         sample_keys=list(grps_dict.keys())
         for key in sample_keys:
-            fig_title='_'.join(sorted([str(m) for m in key]))
-            fig_title=''.join([fig_title,'_',y_axis+'_scores'])
+            if fig_title is None:
+                fig_title='_'.join(sorted([str(m) for m in key]))
+                fig_title=''.join([fig_title,'_',y_axis+'_scores'])
+            else:
+                fig_title=re.sub(pattern='[\s\t]+',repl='_',string=fig_title)
             temp_homo_scores_df = homo_scores_df.iloc[grps_dict[key], :]
             temp_homo_scores_df=temp_homo_scores_df.reset_index(drop=True)
             #if  not temp_homo_scores_df : continue
