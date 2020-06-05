@@ -458,11 +458,8 @@ def safe_mkdir(path):
     
     if not os.path.exists(path):
         os.makedirs(path,mode=0o777);
-
     else:
-        
         pass
-
     pass
 
 def get_all_files_in_directory(directory):
@@ -470,18 +467,13 @@ def get_all_files_in_directory(directory):
     all_dirs = []
     all_files = []
     for (root, dirs, filenames) in os.walk(directory):
-
         all_dirs.append(root)
-
     for d in all_dirs:
-
         [all_files.append(d + '/' + f) for f in os.listdir(d)]
-
     return all_files
 
 
 #Temporal methods to test
-
 def process_data_in_scanpy(in_adata,min_cells=3,min_genes=1,regress_grps=None,top_var_gns=None,no_pcs=10,
                  tsne_perplexity=5,log=None,normalize_per_cell=None,scale=None,plot=None):
     scanpi.pp.filter_genes(data=in_adata, min_cells=min_cells)
@@ -643,4 +635,3 @@ def get_list_of_specific_file_type(directory, file_pattern):
         specific_file_list.append(current_file)
 
     return specific_file_list
-
